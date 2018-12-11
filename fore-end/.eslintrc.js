@@ -11,7 +11,7 @@ module.exports = {
   extends: [
     // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
-    'plugin:vue/essential', 
+    'plugin:vue/essential',
     // https://github.com/standard/standard/blob/master/docs/RULES-en.md
     'standard'
   ],
@@ -30,12 +30,15 @@ module.exports = {
     'semi': 'off',
 
     //关闭末尾存在空行
-    'eol-last': 'off',
+    // 'eol-last': 'off',
 
     //关闭禁止行尾空格
-    'no-trailing-spaces': 'off',
+    // 'no-trailing-spaces': 'off',
 
-    //关闭缩进
-    'indent': 'off'
+    // 关闭缩进
+    'indent': 'off',
+
+    //关闭双引号限制
+    'quotes': 'off'
   }
 }
