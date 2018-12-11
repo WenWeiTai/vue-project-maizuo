@@ -19,16 +19,19 @@ const router = new VueRouter({
         {
             // 首页
             path: '/films',
+            name: 'films',
             component: Films
         },
         {
             // 影院页
             path: '/cinema',
+            name: 'cinema',
             component: Cinema
         },
         {
             // 个人中心页
             path: '/center',
+            name: 'center',
             component: Center
         },
         {

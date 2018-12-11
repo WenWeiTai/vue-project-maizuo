@@ -1,36 +1,40 @@
 // NavBar 组件
 <template>
   <ul class="footer">
-    <li>
-      <a class="active" href="javascript:;">
-        <img src="./image/dy1.png">
-        <span>电影</span>
-      </a>
-    </li>
-    <li>
-      <a href="javascript:;">
-        <img src="./image/dyy.png">
-        <span>影院</span>
-      </a>
-    </li>
-    <li>
-      <a href="javascript:;">
-        <img src="./image/tg.png">
-        <span>9.9拼团</span>
-      </a>
-    </li>
-    <li>
-      <a href="javascript:;">
-        <img src="./image/wd.png">
-        <span>我的</span>
-      </a>
-    </li>
+    <router-link
+      v-for="(item,index) in bars"
+      :key="index"
+      :to="{ name: item.id }"
+      tag="li"
+      active-class="active"
+      :class="item.id">
+      <i class="img"></i>
+      <span v-text="item.name"></span>
+    </router-link>
   </ul>
 </template>
 
 <script>
 export default {
-  name: "NavBar"
+  name: "NavBar",
+  data () {
+    return {
+      bars: [
+        {
+          id: 'films',
+          name: '电影'
+        },
+        {
+          id: 'cinema',
+          name: '影院'
+        },
+        {
+          id: 'center',
+          name: '我的'
+        }
+      ]
+    }
+  }
 };
 </script>
 
@@ -45,19 +49,51 @@ export default {
   border-top: px2rem(1) solid #eee;
   background: #fff;
   li {
-    width: 25%;
+    flex: 1;
     text-align: center;
-    a {
-      height: px2rem(49);
-      display: block;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      img {
-        padding-top: px2rem(8);
-        width: px2rem(21);
-        height: px2rem(21);
+    height: px2rem(49);
+    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .img {
+      width: px2rem(21);
+      height: px2rem(21);
+      margin-top: px2rem(6);
+      margin-bottom: px2rem(2);
+    }
+
+    &.films {
+      .img {
+        background-image: url('./image/dy.png');
       }
+      &.active .img {
+        background-image: url('./image/dy1.png');
+      }
+    }
+
+    &.cinema {
+      .img {
+        background-image: url('./image/dyy.png');
+      }
+      &.active .img {
+        background-image: url('./image/dyy1.png');
+      }
+    }
+
+    &.center {
+      .img {
+        background-image: url('./image/wd.png');
+      }
+      &.active .img {
+        background-image: url('./image/wd1.png');
+      }
+    }
+
+    // 点击高亮
+    &.active {
+      color: #ff5f16;
     }
   }
 }
