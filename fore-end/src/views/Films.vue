@@ -31,12 +31,12 @@
     <!-- tab-bar -->
     <div class="headerNavBox">
       <ul class="headerNavUl">
-        <li class="li-hot active">正在热映</li>
-        <li class="li-coming">即将上映</li>
+        <li :class="{'active': $route.path === '/films/nowPlaying'}" class="li-hot" @click="tabBarClick('now')">正在热映</li>
+        <li class="li-coming" @click="tabBarClick('coming')" :class="{'active': $route.path === '/films/comingSoon'}">即将上映</li>
       </ul>
-      <div class="bottom-line">
+      <!-- <div class="bottom-line">
         <span></span>
-      </div>
+      </div> -->
     </div>
     <!-- /tab-bar -->
 
@@ -67,6 +67,19 @@ export default {
       myCity.get((result) => {
         this.cityName = result.name;
       })
+    },
+
+    // 切换 正在热映 | 即将上映 的路由——编程式导航
+    tabBarClick(type) {
+      if (type === 'now') {
+        this.$router.push({
+          name: 'nowPlaying'
+        })
+      } else {
+        this.$router.push({
+          name: 'comingSoon'
+        })
+      }
     }
   },
 

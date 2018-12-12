@@ -26,7 +26,7 @@
                 <span class="distance">{{ item.nation }} | {{ item.runtime }}分钟</span>
               </div>
             </div>
-            <div class="fr buy">购票</div>
+            <div class="fr buy">预购</div>
           </a>
         </li>
       </ul>
@@ -42,18 +42,31 @@
     data () {
       return {
         // 存放请求的影片
-        films: []
+        films: [],
+        // 当前页
+        pageNum: 1,
+        // 页条数
+        pageSize: 10,
+        // 总页数
+        tatalPage: 0
       }
     },
 
     methods: {
-      // 请求json虚拟数据
+      // 请求后台数据
       getFilmsDate () {
-        axios.get('/static/api/films.json')
+        axios.get('/api/film/list', {
+          params: {
+            pageNum: this.pageNum,
+            pageSize: this.pageSize,
+            type: 2
+          }
+        })
           .then((res) => {
             var result = res.data;
-            if (result.status === 0) {
-              this.films = result.data.films;
+            if (result.code === 0) {
+              console.log(result)
+              this.films = result.data.film;
             } else {
               alert(res.msg);
             }
