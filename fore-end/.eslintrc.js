@@ -39,6 +39,9 @@ module.exports = {
     'indent': 'off',
 
     //关闭双引号限制
-    'quotes': 'off'
+    'quotes': 'off',
+
+    //禁止不能用new
+    'no-new': 'off'
   }
 }
