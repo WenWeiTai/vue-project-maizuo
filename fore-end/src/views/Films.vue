@@ -3,18 +3,18 @@
     <!-- 轮播图 -->
     <div class="swiper-container">
       <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <img src="../images/pic-1.jpg">
-          </div>
-          <div class="swiper-slide">
-            <img src="../images/pic-2.jpg">
-          </div>
-          <div class="swiper-slide">
-            <img src="../images/pic-3.jpg">
-          </div>
-          <div class="swiper-slide">
-            <img src="../images/pic-4.jpg">
-          </div>
+        <div class="swiper-slide">
+          <img src="../images/pic-1.jpg">
+        </div>
+        <div class="swiper-slide">
+          <img src="../images/pic-2.jpg">
+        </div>
+        <div class="swiper-slide">
+          <img src="../images/pic-3.jpg">
+        </div>
+        <div class="swiper-slide">
+          <img src="../images/pic-4.jpg">
+        </div>
       </div>
       <!-- 如果需要分页器 -->
       <div class="swiper-pagination"></div>
@@ -23,42 +23,98 @@
 
     <!-- 城市定位 -->
     <div class="city-fixed">
-      <span>深圳</span>
+      <span>{{ cityName }}</span>
       <i class="iconfont iconfont-arr_D"></i>
     </div>
     <!-- /城市定位 -->
 
     <!-- tab-bar -->
     <div class="headerNavBox">
-        <ul class="headerNavUl">
-            <li class="li-hot active">正在热映</li>
-            <li class="li-coming">即将上映</li>
-        </ul>
-        <div class="bottom-line">
-            <span></span>
-        </div>
+      <ul class="headerNavUl">
+        <li class="li-hot active">正在热映</li>
+        <li class="li-coming">即将上映</li>
+      </ul>
+      <div class="bottom-line">
+        <span></span>
+      </div>
     </div>
     <!-- /tab-bar -->
+
+    <!-- list -->
+    <div class="mainWrapBox">
+      <ul class="mainBox">
+        <li class="mainItemBox">
+          <a href="javascript:;">
+            <div class="filmImg fl">
+              <img src="../images/film-1.jpg">
+            </div>
+            <div class="filmInfo fl">
+              <div class="filmName omit">
+                <span class="distance">海王</span>
+                <i class="distance">3D</i>
+              </div>
+              <div class="grade omit">
+                <span class="distance">观众评分</span>
+                <i class="distance">7.2</i>
+              </div>
+              <div class="info omit">
+                <span class="distance">主演： 帕特里克·威尔森 妮可·基德曼 杜夫·龙格尔 温子仁 杰森·莫玛 安柏·赫德</span>
+              </div>
+              <div class="filmFrom omit">
+                <span class="distance">美国 澳大利亚 | 143分钟</span>
+              </div>
+            </div>
+            <div class="fr buy">购票</div>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <!-- /list -->
+
   </div>
 </template>
 
 <script>
 // 引入swiper
-import Swiper from 'swiper'
+import Swiper from "swiper";
+
 export default {
   name: "Films",
+  data () {
+    return {
+      cityName: ''
+    }
+  },
+  methods: {
+    // 定位当前城市名称
+    /* eslint-disable */
+    getCityName () {
+      var myCity = new BMap.LocalCity();
+      myCity.get((result) => {
+        this.cityName = result.name;
+      })
+    },
+
+    // 请求json虚拟数据
+    getFilmsDate () {
+      
+    }
+  },
+  created () {
+    this.getCityName();
+  },
 
   mounted () {
-    new Swiper('.swiper-container', {
+    new Swiper(".swiper-container", {
       loop: true, // 循环模式选项
       autoplay: true,
       // 如果需要分页器
       pagination: {
-        el: '.swiper-pagination'
+        el: ".swiper-pagination"
       }
     })
   }
-};
+}
 </script>
 
 <style lang="scss">
@@ -68,6 +124,7 @@ export default {
 @import "swiper/dist/css/swiper.min.css";
 .films-list {
   flex: 1;
+  overflow-y: auto;
 }
 .swiper-container {
   height: px2rem(210);
@@ -76,14 +133,14 @@ export default {
     width: px2rem(10);
   }
   .swiper-pagination-bullet-active {
-    background: rgba(101, 245, 5, 0.8)
+    background: rgba(101, 245, 5, 0.8);
   }
 }
 .city-fixed {
   position: absolute;
   top: px2rem(18);
   left: px2rem(8);
-  z-index: 999;
+  z-index: 1;
   height: px2rem(25);
   line-height: px2rem(25);
   font-size: px2rem(14);
@@ -95,34 +152,114 @@ export default {
 }
 
 .headerNavBox {
+  position: sticky;
+  z-index: 999;
+  top: px2rem(0);
+  height: px2rem(49);
+  line-height: px2rem(49);
+  background: #fff;
+  ul {
     display: flex;
-    flex-direction: column;
-    height: px2rem(49);
-    ul{
-        flex: 1;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        border-bottom: px2rem(1) solid #eee;
-        li {
-            width: 50%;
-            text-align: center;
-            font-size: px2rem(14);
-        }
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: px2rem(1) solid #eee;
+    li {
+      flex: 1;
+      text-align: center;
+      font-size: px2rem(14);
     }
+  }
 }
 .bottom-line {
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    span {
-        width: px2rem(56);
-        height: px2rem(1);
-        background: #ff5f16;
-        display: block;
-    }
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  span {
+    width: px2rem(56);
+    height: px2rem(1);
+    background: #ff5f16;
+    display: block;
+  }
 }
 .active {
-    color: #ff5f16;
+  color: #ff5f16;
+}
+
+.mainWrapBox {
+  .mainBox {
+    margin-left: px2rem(15);
+    overflow: auto;
+
+    .mainItemBox {
+      padding: px2rem(15) px2rem(15) px2rem(15) 0;
+      border-bottom: px2rem(1) solid #eee;
+      a {
+        display: flex;
+        align-items: center;
+        // box-sizing: border-box;
+        .filmImg {
+          img {
+            width: px2rem(66);
+            height: px2rem(94);
+            display: block;
+          }
+        }
+        .filmInfo {
+          padding: 0 px2rem(10);
+          font-size: px2rem(13);
+          width: px2rem(209);
+
+          .filmName {
+            width: 100%;
+            span {
+              color: #191a1b;
+              font-size: px2rem(16);
+            }
+            i {
+              font-size: px2rem(12);
+              color: #fff;
+              background-color: #d2d6dc;
+              height: px2rem(14);
+              line-height: px2rem(14);
+              padding: 0 px2rem(2);
+              border-radius: px2rem(2);
+            }
+          }
+          .grade {
+            i {
+              color: #ffb232;
+              font-size: px2rem(14);
+            }
+          }
+          .info {
+            width: 100%;
+          }
+        }
+        .buy {
+          line-height: px2rem(25);
+          height: px2rem(25);
+          width: px2rem(50);
+          color: #ff5f16;
+          font-size: px2rem(13);
+          text-align: center;
+          border-radius: px2rem(2);
+          position: relative;
+          border: px2rem(1) solid #ff5f16;
+        }
+      }
+    }
+  }
+}
+
+.omit {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.distance {
+  font-size: px2rem(13);
+  line-height: px2rem(20);
 }
 </style>
