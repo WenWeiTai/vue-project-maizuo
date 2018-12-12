@@ -13,6 +13,7 @@ router.get('/list',function(req,res){
   var pageSize = parseInt(req.query.pageSize) || 5;
   // 影片类型
   var type = parseInt(req.query.type) || 1;
+  console.log(pageNum)
 
   // 根据数据里的时间戳判断已上映还是即将上映，查询对应类型的所有数据 —— premiereAt
   // 定义查询条件
@@ -69,6 +70,7 @@ router.get('/list',function(req,res){
             msg: '访问出错'
           })
         } else {
+          console.log(result.num);
           res.json({
             code: 0,
             msg: '请求成功',
