@@ -7,6 +7,10 @@ import VueRouter from 'vue-router';
 
 // 引入路由组件
 import Films from './views/Films';
+// 引入 正在热映 | 即将上映 组件
+import nowPlaying from './components/nowPlaying';
+import comingSoon from './components/comingSoon';
+
 import Cinema from './views/Cinema';
 import Center from './views/Center';
 
@@ -20,7 +24,19 @@ const router = new VueRouter({
             // 首页
             path: '/films',
             name: 'films',
-            component: Films
+            component: Films,
+            children: [
+                {
+                    path: 'nowPlaying',
+                    name: 'nowPlaying',
+                    component: nowPlaying
+                },
+                {
+                    path: 'comingSoon',
+                    name: 'comingSoon',
+                    component: comingSoon
+                }
+            ]
         },
         {
             // 影院页
@@ -37,7 +53,7 @@ const router = new VueRouter({
         {
             // 默认
             path: '*',
-            redirect: '/films'
+            redirect: '/films/nowPlaying'
         }
     ]
 })

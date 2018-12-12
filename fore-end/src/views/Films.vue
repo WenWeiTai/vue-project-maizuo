@@ -41,37 +41,7 @@
     <!-- /tab-bar -->
 
     <!-- list -->
-    <div class="mainWrapBox">
-      <ul class="mainBox">
-        <li class="mainItemBox"
-          v-for="(item,index) in films"
-          :key="index"
-        >
-          <a href="javascript:;">
-            <div class="filmImg fl">
-              <img :src="item.poster">
-            </div>
-            <div class="filmInfo fl">
-              <div class="filmName omit">
-                <span class="distance" v-text="item.name"></span>
-                <i class="distance" v-text="item.filmType.name"></i>
-              </div>
-              <div class="grade omit">
-                <span class="distance">观众评分</span>
-                <i class="distance" v-text="item.grade"></i>
-              </div>
-              <div class="info omit">
-                <span class="distance">主演：{{ getActors(item.actors) }}</span>
-              </div>
-              <div class="filmFrom omit">
-                <span class="distance">{{ item.nation }} | {{ item.runtime }}分钟</span>
-              </div>
-            </div>
-            <div class="fr buy">购票</div>
-          </a>
-        </li>
-      </ul>
-    </div>
+    <router-view></router-view>
     <!-- /list -->
 
   </div>
@@ -80,17 +50,13 @@
 <script>
 // 引入swiper
 import Swiper from "swiper";
-// 引入axios
-import axios from "axios";
 
 export default {
   name: "Films",
   data () {
     return {
       // 定位城市
-      cityName: '',
-      // 存放请求的影片
-      films: []
+      cityName: ''
     }
   },
   methods: {
@@ -101,34 +67,11 @@ export default {
       myCity.get((result) => {
         this.cityName = result.name;
       })
-    },
-
-    // 请求json虚拟数据
-    getFilmsDate () {
-      axios.get('/static/api/films.json')
-        .then((res) => {
-          var result = res.data;
-          if(result.status === 0) {
-            this.films = result.data.films;
-          } else {
-            alert(res.msg);
-          }
-        })
-    },
-
-    // 主演获取
-    getActors (actors) {
-      var arr = [];
-      arr = actors.map(function (item) {
-        return item.name;
-      })
-      return arr.join(' ');
     }
   },
 
   created () {
     this.getCityName();
-    this.getFilmsDate();
   },
 
   mounted () {
