@@ -5,21 +5,22 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 // 引入nprogress
-// import nprogress from '/nprogress/nprogress.css'
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 
 // 引入路由组件
 // 电影页
-import Films from './views/Films';
+// import Films from './views/Films';
 // 引入 正在热映 | 即将上映 组件
-import nowPlaying from './components/nowPlaying';
-import comingSoon from './components/comingSoon';
+// import nowPlaying from './components/nowPlaying';
+// import comingSoon from './components/comingSoon';
 
-import Cinema from './views/Cinema';
-import Center from './views/Center';
+// import Cinema from './views/Cinema';
+// import Center from './views/Center';
 // 引入详情页
-import FilmDetail from './views/FilmDetail';
+// import FilmDetail from './views/FilmDetail';
 // 引入首页
-import Home from './views/home';
+// import Home from './views/home';
 
 // npm引入模块的方式，需要用Vue.use()
 // 插件安装
@@ -30,7 +31,9 @@ const router = new VueRouter({
         {
             // 首页
             path: '/',
-            component: Home,
+            // component: Home,
+            // 异步路由懒加载
+            component: () => import('./views/home'),
             children: [
                 {
                     path: '',
@@ -43,17 +46,17 @@ const router = new VueRouter({
                 {
                     // 电影页
                     path: 'films',
-                    component: Films,
+                    component: () => import('./views/Films'),
                     children: [
                         {
                             path: 'nowPlaying',
                             name: 'nowPlaying',
-                            component: nowPlaying
+                            component: () => import('./components/nowPlaying')
                         },
                         {
                             path: 'comingSoon',
                             name: 'comingSoon',
-                            component: comingSoon
+                            component: () => import('./components/comingSoon')
                         }
                     ]
                 },
@@ -61,13 +64,13 @@ const router = new VueRouter({
                     // 影院页
                     path: 'cinema',
                     name: 'cinema',
-                    component: Cinema
+                    component: () => import('./views/Cinema')
                 },
                 {
                     // 个人中心页
                     path: 'center',
                     name: 'center',
-                    component: Center
+                    component: () => import('./views/Center')
                 }
             ]
         },
@@ -75,7 +78,7 @@ const router = new VueRouter({
             // 详情页
             path: '/films/:filmId',
             name: 'filmDetail',
-            component: FilmDetail
+            component: () => import('./views/FilmDetail')
         },
         {
             // 默认
@@ -84,5 +87,18 @@ const router = new VueRouter({
         }
     ]
 })
+
+// 进度条
+router.beforeEach((to, from, next) => {
+    // console.log(to, from)
+    NProgress.start();
+    next();
+})
+
+router.afterEach((to, from) => {
+    // console.log(to, from)
+    NProgress.done()
+})
+
 // 暴露路由
 export default router;
