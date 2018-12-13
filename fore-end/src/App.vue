@@ -1,23 +1,14 @@
 <template>
   <div id="app">
-    <!-- 首页 -->
+    <!-- 一级路由 -->
     <router-view></router-view>
-    <!-- 底部导航 -->
-    <NavBar></NavBar>
   </div>
 </template>
 
 <script>
-// 引入组件
-import NavBar from './components/NavBar/index';
-
-export default {
-  name: 'appMain',
-  // 注册组件
-  components: {
-    NavBar
+  export default {
+    name: 'app'
   }
-}
 </script>
 
 <style lang="scss">

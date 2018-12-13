@@ -16,6 +16,8 @@ import Cinema from './views/Cinema';
 import Center from './views/Center';
 // 引入详情页
 import FilmDetail from './views/FilmDetail';
+// 引入首页
+import Home from './views/home';
 
 // npm引入模块的方式，需要用Vue.use()
 // 插件安装
@@ -25,33 +27,41 @@ const router = new VueRouter({
     routes: [
         {
             // 首页
-            path: '/films',
-            name: 'films',
-            component: Films,
+            path: '/',
+            component: Home,
             children: [
                 {
-                    path: 'nowPlaying',
-                    name: 'nowPlaying',
-                    component: nowPlaying
+                    // 电影页
+                    path: 'films',
+                    alias: '/',
+                    component: Films,
+                    children: [
+                        {
+                            path: 'nowPlaying',
+                            name: 'nowPlaying',
+                            alias: 'films',
+                            component: nowPlaying
+                        },
+                        {
+                            path: 'comingSoon',
+                            name: 'comingSoon',
+                            component: comingSoon
+                        }
+                    ]
                 },
                 {
-                    path: 'comingSoon',
-                    name: 'comingSoon',
-                    component: comingSoon
+                    // 影院页
+                    path: 'cinema',
+                    name: 'cinema',
+                    component: Cinema
+                },
+                {
+                    // 个人中心页
+                    path: 'center',
+                    name: 'center',
+                    component: Center
                 }
             ]
-        },
-        {
-            // 影院页
-            path: '/cinema',
-            name: 'cinema',
-            component: Cinema
-        },
-        {
-            // 个人中心页
-            path: '/center',
-            name: 'center',
-            component: Center
         },
         {
             // 详情页

@@ -4,7 +4,7 @@
     <router-link
       v-for="(item,index) in bars"
       :key="index"
-      :to="{ name: item.id }"
+      :to="{ path: '/' + item.id }"
       tag="li"
       active-class="active"
       :class="item.id">
