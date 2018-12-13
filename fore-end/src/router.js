@@ -27,77 +27,102 @@ import 'nprogress/nprogress.css';
 Vue.use(VueRouter)
 
 const router = new VueRouter({
-    routes: [
+  routes: [
+    {
+      // 首页
+      path: '/',
+      // component: Home,
+      // 异步路由懒加载
+      component: () => import('./views/Home'),
+      children: [
         {
-            // 首页
-            path: '/',
-            // component: Home,
-            // 异步路由懒加载
-            component: () => import('./views/home'),
-            children: [
-                {
-                    path: '',
-                    redirect: '/films/nowPlaying'
-                },
-                {
-                    path: '/films',
-                    redirect: '/films/nowPlaying'
-                },
-                {
-                    // 电影页
-                    path: 'films',
-                    component: () => import('./views/Films'),
-                    children: [
-                        {
-                            path: 'nowPlaying',
-                            name: 'nowPlaying',
-                            component: () => import('./components/nowPlaying')
-                        },
-                        {
-                            path: 'comingSoon',
-                            name: 'comingSoon',
-                            component: () => import('./components/comingSoon')
-                        }
-                    ]
-                },
-                {
-                    // 影院页
-                    path: 'cinema',
-                    name: 'cinema',
-                    component: () => import('./views/Cinema')
-                },
-                {
-                    // 个人中心页
-                    path: 'center',
-                    name: 'center',
-                    component: () => import('./views/Center')
-                }
-            ]
+          path: '',
+          redirect: '/films/nowPlaying'
         },
         {
-            // 详情页
-            path: '/films/:filmId',
-            name: 'filmDetail',
-            component: () => import('./views/FilmDetail')
+          path: '/films',
+          redirect: '/films/nowPlaying'
         },
         {
-            // 默认
-            path: '*',
-            redirect: '/films/nowPlaying'
+          // 电影页
+          path: 'films',
+          component: () => import('./views/Films'),
+          children: [
+            {
+              path: 'nowPlaying',
+              name: 'nowPlaying',
+              component: () => import('./components/nowPlaying')
+            },
+            {
+              path: 'comingSoon',
+              name: 'comingSoon',
+              component: () => import('./components/comingSoon')
+            }
+          ]
+        },
+        {
+          // 影院页
+          path: 'cinema',
+          name: 'cinema',
+          component: () => import('./views/Cinema')
+        },
+        {
+          // 个人中心页
+          path: 'center',
+          name: 'center',
+          component: () => import('./views/Center')
         }
-    ]
+      ]
+    },
+    {
+      // 详情页
+      path: '/films/:filmId',
+      name: 'filmDetail',
+      component: () => import('./views/FilmDetail')
+    },
+    {
+      // 登录页
+      path: '/login',
+      component: () => import('./views/Login.vue')
+    },
+    {
+      path: '/user',
+      component: () => import('./views/User.vue'),
+      beforeEnter: (to, from, next) => {
+        // 路由独享守卫——拦截,判断是否有登录
+        if (localStorage.getItem('username')) {
+          next()
+        } else {
+          next('/login')
+        }
+      },
+      children: [
+        {
+          // 卖座卡
+          path: 'card',
+          name: 'card',
+          component: () => import('./views/Card.vue')
+        }
+      ]
+    },
+    {
+      // 默认
+      path: '*',
+      redirect: '/films/nowPlaying'
+    }
+  ]
 })
 
 // 进度条
 router.beforeEach((to, from, next) => {
-    // console.log(to, from)
-    NProgress.start();
-    next();
+  // console.log(to, from)
+  NProgress.start();
+  next();
 })
 
 router.afterEach((to, from) => {
-    // console.log(to, from)
-    NProgress.done()
+  // console.log(to, from)
+  NProgress.done()
 })
 
 // 暴露路由
