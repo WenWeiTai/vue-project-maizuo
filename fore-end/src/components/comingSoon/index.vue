@@ -5,6 +5,7 @@
         <li class="mainItemBox"
           v-for="(item,index) in films"
           :key="index"
+          @click="goDetail(item.filmId)"
         >
           <a href="javascript:;">
             <div class="filmImg fl">
@@ -30,6 +31,7 @@
           </a>
         </li>
       </ul>
+      <div class="load-more" @click="moreDate()">{{ loadText }}</div>
     </div>
     <!-- /list -->
 </template>
@@ -46,9 +48,13 @@
         // 当前页
         pageNum: 1,
         // 页条数
-        pageSize: 10,
+        pageSize: 5,
         // 总页数
-        tatalPage: 0
+        tatalPage: 0,
+        // 总数据条数
+        tatal: 0,
+        // 加载更多
+        loadText: '加载更多'
       }
     },
 
@@ -66,7 +72,8 @@
             var result = res.data;
             if (result.code === 0) {
               console.log(result)
-              this.films = result.data.film;
+              this.tatal = res.data.data.tatal
+              this.films.push(...result.data.film);
             } else {
               alert(res.msg);
             }
@@ -76,10 +83,35 @@
       // 主演获取
       getActors (actors) {
         var arr = [];
-        arr = actors.map(function (item) {
-          return item.name;
-        })
+        // 有主演名单才遍历筛选
+        if (actors) {
+          arr = actors.map(function (item) {
+            return item.name;
+          })
+        }
         return arr.join(' ');
+      },
+
+      // 详情页传递filmId
+      goDetail (id) {
+        this.$router.push({
+          // 用 name , $route 里边 看不path 路径 和 parms 参数
+          // name: 'filmDetail'
+          path: `/films/${id}`
+        })
+      },
+
+      // 加载更多数据
+      moreDate () {
+        // 计算页数
+        this.tatalPage = Math.ceil(this.tatal / this.pageSize);
+        this.pageNum++;
+        // console.log(this.tatalPage, this.pageNum)
+        if (this.pageNum < this.tatalPage) {
+          this.getFilmsDate();
+        } else {
+          this.loadText = '已全部加载'
+        }
       }
     },
 
@@ -167,5 +199,12 @@
 .distance {
   font-size: px2rem(13);
   line-height: px2rem(20);
+}
+
+.load-more {
+  text-align: center;
+  line-height: px2rem(30);
+  font-size: px2rem(14);
+  color: #776a67;
 }
 </style>

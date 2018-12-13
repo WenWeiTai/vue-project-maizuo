@@ -4,6 +4,8 @@
 // vue 引入多次，用的是缓存
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+// 引入nprogress
+// import nprogress from '/nprogress/nprogress.css'
 
 // 引入路由组件
 // 电影页
