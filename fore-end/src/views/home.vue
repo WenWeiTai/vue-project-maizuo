@@ -1,7 +1,15 @@
 <template>
     <div class="home">
       <!-- 二级路由 -->
-      <router-view></router-view>
+      <transition
+        mode="out-in"
+        :duration="200"
+        appear
+        enter-active-class="animated fadeInUpBig"
+        leave-active-class="animated fadeOutDownBig"
+      >
+        <router-view></router-view>
+      </transition>
       <!-- 底部导航 -->
       <NavBar></NavBar>
     </div>

@@ -31,15 +31,21 @@ const router = new VueRouter({
             component: Home,
             children: [
                 {
+                    path: '',
+                    redirect: '/films/nowPlaying'
+                },
+                {
+                    path: '/films',
+                    redirect: '/films/nowPlaying'
+                },
+                {
                     // 电影页
                     path: 'films',
-                    alias: '/',
                     component: Films,
                     children: [
                         {
                             path: 'nowPlaying',
                             name: 'nowPlaying',
-                            alias: 'films',
                             component: nowPlaying
                         },
                         {

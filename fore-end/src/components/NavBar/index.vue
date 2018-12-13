@@ -62,6 +62,7 @@ export default {
       height: px2rem(21);
       margin-top: px2rem(6);
       margin-bottom: px2rem(2);
+      background-size: 100%;
     }
 
     &.films {
