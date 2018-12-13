@@ -6,6 +6,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 // 引入路由组件
+// 电影页
 import Films from './views/Films';
 // 引入 正在热映 | 即将上映 组件
 import nowPlaying from './components/nowPlaying';
@@ -13,6 +14,8 @@ import comingSoon from './components/comingSoon';
 
 import Cinema from './views/Cinema';
 import Center from './views/Center';
+// 引入详情页
+import FilmDetail from './views/FilmDetail';
 
 // npm引入模块的方式，需要用Vue.use()
 // 插件安装
@@ -49,6 +52,12 @@ const router = new VueRouter({
             path: '/center',
             name: 'center',
             component: Center
+        },
+        {
+            // 详情页
+            path: '/films/:filmId',
+            name: 'filmDetail',
+            component: FilmDetail
         },
         {
             // 默认

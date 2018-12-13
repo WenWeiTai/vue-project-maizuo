@@ -5,6 +5,7 @@
         <li class="mainItemBox"
           v-for="(item,index) in films"
           :key="index"
+          @click="goDetail(item.filmId)"
         >
           <a href="javascript:;">
             <div class="filmImg fl">
@@ -79,6 +80,15 @@
           return item.name;
         })
         return arr.join(' ');
+      },
+
+      // 详情页传递filmId
+      goDetail (id) {
+        this.$router.push({
+          // 用 name , $route 里边 看不path 路径 和 parms 参数
+          // name: 'filmDetail'
+          path: `/films/${id}`
+        })
       }
     },
 
