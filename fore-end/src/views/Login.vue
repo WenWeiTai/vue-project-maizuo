@@ -5,20 +5,66 @@
     </div>
     <dir class="login">
       <div class="phone-box">
-        <input type="text" placeholder="手机号" class="input-style">
+        <input type="text" placeholder="手机号" class="input-style" v-model="inputVal">
       </div>
       <div class="code-box">
-        <input type="text" placeholder="验证码" class="input-style">
+        <input type="text" placeholder="验证码" class="input-style" v-model="codeVal">
       </div>
       <div class="btn-box">
-        <input type="button" value="登录" class="input-style btn-style">
+        <input type="button" value="登录" class="input-style btn-style" @click="toLogin" :disabled="isDisable">
       </div>
     </dir>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
+  name: "login",
+  data () {
+    return {
+      inputVal: '',
+      codeVal: ''
+    }
+  },
+
+  methods: {
+    /**
+     *
+     *  登录验证
+     */
+    toLogin () {
+      axios.get('/static/api/user.json', {
+        params: {
+          phone: this.inputVal,
+          code: this.codeVal
+        }
+      }).then((res) => {
+        if (this.inputVal === res.data[0].phone && this.codeVal === res.data[0].code) {
+          console.log('登录成功');
+          localStorage.setItem('phone', '15899850664');
+          let redirect = this.$route.query.redirect;
+          this.$router.replace(redirect);
+        } else {
+          alert('账号或密码错误')
+        }
+      })
+    }
+  },
+
+  computed: {
+    /**
+     *
+     *  监听文本框是否为空，控制按钮是否可点
+     */
+    isDisable () {
+      if (this.inputVal && this.codeVal) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }
 
 }
 </script>
@@ -60,5 +106,8 @@ export default {
     height: px2rem(44);
     color: #fff;
     border: none;
+    &[disabled] {
+      background: #eee;
+    }
   }
 </style>

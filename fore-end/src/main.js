@@ -2,6 +2,7 @@
 // 引入Vue模块
 import Vue from 'vue'
 import router from './router'
+// 引入 vuex
 import App from './App'
 
 // 去除vue 开发时，浏览器的提示
