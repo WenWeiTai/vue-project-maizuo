@@ -4,51 +4,74 @@ Vue.use(Vuex);
 
 var store = new Vuex.Store({
   state: {
-    curCity: '汕尾市',
-    projectName: '卖座网',
-    likeFilms: [
-      {
-        fimlsName: '猫王',
-        isLike: true
-      },
-      {
-        fimlsName: '狗王',
-        isLike: true
-      },
-      {
-        fimlsName: '猪王',
-        isLike: true
-      }
-    ],
-    maxNum: 1
-  },
-
-  getters: {
-    filtLike (state, getters) {
-      var arr = state.likeFilms.filter((item) => {
-        console.log(item.isLike)
-        return item.isLike
-      })
-      return arr.splice(0, getters.maxLikeNum)
-    },
-
-    maxLikeNum (state) {
-      return state.maxNum * 2
-    }
+    filmCardDate: []
   },
 
   mutations: {
-    changeStateCurCity (state, payload) {
-      state.curCity = payload.city + '' + payload.district
+    /**
+     *
+     *  添加电影票
+     *  payload 传递的是整条数据
+     *  @param {Object}
+     *    filmId
+     *    filmName
+     *    filmPrice
+     *    filmNum
+     */
+    addTicket (state, payload) {
+      // console.log(payload)
+      var index = -1;
+      var filmId = payload.filmId;
+      var hasId = state.filmCardDate.some((item, i) => {
+        if (filmId === item.filmId) {
+          index = i;
+          return true
+        } else {
+          return false
+        }
+      })
+
+      if (hasId) {
+        // 状态已存在此ID的数据，数量添加
+        state.filmCardDate[index].filmNum++
+      } else {
+        // 不存在则添加新数据
+        state.filmCardDate.push({
+          filmId: payload.filmId,
+          filmName: payload.name,
+          filmPrice: parseInt(30 + Math.random() * 60),
+          filmNum: 1
+        })
+      }
+    },
+
+    /**
+     *
+     *  减少电影票
+     *  payload 传递的是整条数据
+     *  @param {Object}
+     *    filmId
+     *    filmName
+     *    filmPrice
+     *    filmNum
+     */
+    reduceTicket (state, payload) {
+      let index = -1;
+      state.filmCardDate.forEach((item, i) => {
+        if (item.filmId === payload.filmId) {
+          index = i;
+        }
+      })
+
+      if (index > -1) {
+        let film = state.filmCardDate[index]
+        if (film.filmNum > 1) {
+          film.filmNum--
+        } else {
+          state.filmCardDate.splice(index, 1);
+        }
+      }
     }
-  },
-
-  actions: {
-
-  },
-
-  modules: {
-
   }
 });
 

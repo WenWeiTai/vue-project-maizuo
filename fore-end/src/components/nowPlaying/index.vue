@@ -27,11 +27,29 @@
                 <span class="distance">{{ item.nation }} | {{ item.runtime }}分钟</span>
               </div>
             </div>
-            <div class="fr buy">购票</div>
+            <div class="fr buy" @click.stop="popupVisible = !popupVisible, filmDate = item">购票</div>
           </a>
         </li>
       </ul>
       <div class="load-more" @click="moreDate()">{{ loadText }}</div>
+      <mt-popup class="small-card"
+        v-model="popupVisible"
+        position="bottom">
+        <div class="small-card-title">
+          <h3>已选影片</h3>
+        </div>
+        <ul>
+          <li>
+            <span class="filmname">海王</span>
+            <span class="price">￥<i>29</i></span>
+            <span class="change-film-num">
+              <i class="reduce-film" @click="reduceTicket(filmDate)">-</i>
+              <span class="film-num">1</span>
+              <i class="add-film" @click="addTicket(filmDate)">+</i></span>
+          </li>
+        </ul>
+        <mt-button type="primary" class="goto-card">结算</mt-button>
+      </mt-popup>
     </div>
     <!-- /list -->
 </template>
@@ -39,6 +57,10 @@
 <script>
   // 引入axios
   import axios from "axios";
+  // 引入mint-Ui 的 popup
+  import { Popup, Button } from 'mint-ui';
+  import { mapMutations } from 'vuex';
+
   export default {
     name: 'nowPlaying',
     data () {
@@ -54,11 +76,29 @@
         // 总数据条数
         tatal: 0,
         // 加载更多
-        loadText: '加载更多'
+        loadText: '加载更多',
+        // 小购物车开关
+        popupVisible: false,
+        // 拿到当前点击购票的数据
+        filmDate: {}
       }
     },
 
+    components: {
+      'mt-popup': Popup,
+      'mt-button': Button
+    },
+
     methods: {
+      /**
+       *
+       *  添加
+       */
+      ...mapMutations([
+        'addTicket',
+        'reduceTicket'
+      ]),
+
       // 请求后台数据
       getFilmsDate () {
         axios.get('/api/film/list', {
@@ -112,6 +152,10 @@
           this.loadText = '已全部加载'
         }
       }
+    },
+
+    computed: {
+
     },
 
     created () {
@@ -205,5 +249,56 @@
   line-height: px2rem(30);
   font-size: px2rem(14);
   color: #776a67;
+}
+.small-card {
+  width: 100%;
+  .small-card-title {
+    // background: #eee;
+    padding: px2rem(20);
+    border-bottom: px2rem(1) solid #eee;
+  }
+  ul {
+    padding: px2rem(15);
+    li {
+      padding: px2rem(10) 0;
+      display: flex;
+      border-bottom: px2rem(1) solid #eee;
+      .filmname {
+        flex: 5.5;
+      }
+      .price {
+        flex: 2.5;
+        color: rgb(255, 83, 57);
+        text-align: right;
+      }
+      .change-film-num {
+        flex: 3;
+        text-align: right;
+      }
+    }
+  }
+}
+
+.goto-card {
+    float: right;
+    margin-right: px2rem(10);
+    margin-bottom: px2rem(10);
+}
+
+.add-film,.reduce-film {
+  width: px2rem(20);
+  height: px2rem(20);
+  background: #26a2ff;
+  color: #fff;
+  display: inline-block;
+  text-align: center;
+  line-height: px2rem(20);
+  border-radius: 50%;
+  font-size: px2rem(20);
+  font-weight: bold;
+}
+
+.film-num {
+  padding: 0 px2rem(10);
 }
 </style>

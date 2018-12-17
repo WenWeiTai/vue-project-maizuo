@@ -52,9 +52,11 @@
 import Swiper from "swiper";
 // 引入store
 import store from "../store";
+
 console.log(store);
 export default {
   name: "Films",
+
   data () {
     return {
       // 定位城市
