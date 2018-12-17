@@ -50,7 +50,9 @@
 <script>
 // 引入swiper
 import Swiper from "swiper";
-
+// 引入store
+import store from "../store";
+console.log(store);
 export default {
   name: "Films",
   data () {
@@ -106,6 +108,7 @@ export default {
 // 引入swiper样式
 @import "swiper/dist/css/swiper.min.css";
 .films-list {
+  position: relative;
   flex: 1;
   overflow-y: auto;
 }
