@@ -1,5 +1,10 @@
 <template>
   <div class="film-detail">
+    <div class="film-header">
+      <router-link tag="i" class="iconfont iconfont-zuojiantou goback" to="/"></router-link>
+      <!-- <span class="filem-title">{{detailsDate && detailsDate.name}}</span> -->
+    </div>
+
     <div class="film-poster">
       <img :src="detailsDate && detailsDate.poster">
     </div>
@@ -30,20 +35,41 @@
         <i class="iconfont icon-xiala"></i>
       </div>
     </div>
+
+    <div class="film-actors film-box">
+      <div class="title"><span>演职人员</span></div>
+      <ul class="film-ul">
+        <li class="actors-info"
+        v-for="(item,index) in detailsDate.actors"
+        :key="index">
+          <img :src="item.avatarAddress">
+          <p>{{ item.name }}</p>
+          <p>{{ item.role }}</p>
+        </li>
+      </ul>
+    </div>
+    <div class="film-photo film-box">
+      <div class="title"><span>剧照</span></div>
+      <ul class="film-ul photo-ul">
+        <li class="photo-info"
+        v-for="(item,index) in detailsDate.photos"
+        :key="index">
+          <img :src="item">
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import Swiper from 'swiper';
 export default {
   name: 'filmDetail',
   data () {
     return {
       detailsDate: {}
     }
-  },
-  methods: {
-
   },
 
   created () {
@@ -60,15 +86,28 @@ export default {
       } else {
         alert(result.msg)
       }
-    })
+    });
+  },
+
+  mounted () {
+    /**
+     *
+     *  演员轮播
+     */
+    new Swiper('.swiper-container', {
+
+    });
   }
 }
 </script>
 
 <style lang="scss">
 @import '@/styles/common/px2rem.scss';
-
+@import 'swiper/dist/css/swiper.min.css';
 .film-detail {
+  position: relative;
+  background: #eee;
+  // height: 100%;
   flex: 1;
   overflow-y: auto;
 
@@ -153,4 +192,73 @@ export default {
     }
   }
 }
+
+.film-header {
+  position: fixed;
+  .goback {
+    height: px2rem(30);
+    width: px2rem(30);
+    position: absolute;
+    top: px2rem(5);
+    left: px2rem(5);
+    background: rgba(255,255,255,.5);
+    border-radius: 50%;
+    line-height: px2rem(30);
+    text-align: center;
+    font-size: px2rem(20);
+  }
+}
+
+.film-box {
+  margin-top: px2rem(10);
+  background: #fff;
+  .title {
+    padding: px2rem(15);
+  }
+}
+
+.film-ul {
+  padding-left: px2rem(15);
+  display: flex;
+  overflow-y: auto;
+}
+
+.actors-info {
+  width: px2rem(85);
+  margin-right: px2rem(10);
+  font-size: px2rem(12);
+  text-align: center;
+  padding-bottom: px2rem(10);
+  img {
+    width: px2rem(85);
+  }
+  p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+.photo-ul {
+  height: px2rem(115);
+  display: flex;
+  justify-content: flex-start;
+  overflow-y: hidden;
+  margin-bottom: px2rem(10);
+}
+
+.photo-info {
+  width: px2rem(150);
+  margin-right: px2rem(10);
+  img {
+    width: px2rem(150);
+  }
+}
+
+// .film-header {
+//   position: sticky;
+//   top: 0;
+//   z-index: 999;
+//   background: #f00;
+// }
 </style>
