@@ -84,6 +84,40 @@ router.get('/list',function(req,res){
       })
     }
   })
+});
+
+// 根据id获取详情页数据
+router.get('/details',function(req,res) {
+  var filmId = Number(req.query.filmId);
+  console.log(filmId)
+  MongoClient.connect(url, { useNewUrlParser: true }, function(err, client){
+    if (err) {
+      console.log('连接数据库失败',err)
+      res.json({
+        code: 0,
+        msg: '网络异常，请稍后重试'
+      })
+      return
+    }
+    var db = client.db('maizuo');
+    db.collection('details').find({ "filmId": filmId}).toArray(function (err,result) {
+      console.log(result)
+      if (err) {
+        console.log('查询数据失败',err)
+        res.json({
+          code: 0,
+          msg: '错误'
+        })
+        return
+      }
+      res.json({
+        code: 1,
+        msg: '请求成功',
+        data: result
+      })
+      client.close();
+    })
+  })
 })
 
 module.exports = router;

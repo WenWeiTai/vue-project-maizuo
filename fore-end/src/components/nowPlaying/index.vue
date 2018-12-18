@@ -168,7 +168,6 @@
 
     created () {
       this.getFilmsDate();
-      console.log(this.filmCardDate)
     }
   }
 </script>
@@ -261,12 +260,15 @@
 }
 .small-card {
   width: 100%;
+  height: 50%;
   .small-card-title {
     // background: #eee;
     padding: px2rem(20);
     border-bottom: px2rem(1) solid #eee;
   }
   ul {
+    height: 66%;
+    overflow-y: auto;
     padding: px2rem(15);
     li {
       padding: px2rem(10) 0;
