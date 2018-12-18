@@ -29,6 +29,10 @@ export default {
           name: '影院'
         },
         {
+          id: 'group',
+          name: '9.9拼团'
+        },
+        {
           id: 'center',
           name: '我的'
         }
@@ -80,6 +84,15 @@ export default {
       }
       &.active .img {
         background-image: url('./image/dyy1.png');
+      }
+    }
+
+    &.group {
+      .img {
+        background-image: url('./image/tg.png');
+      }
+      &.active .img {
+        background-image: url('./image/tg1.png');
       }
     }
 

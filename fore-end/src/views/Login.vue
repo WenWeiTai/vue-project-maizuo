@@ -4,14 +4,14 @@
       <img src="../images/login.png" alt="">
     </div>
     <dir class="login">
-      <div class="phone-box">
-        <input type="text" placeholder="手机号" class="input-style" v-model="inputVal">
+      <div class="input-box">
+        <input type="text" placeholder="手机号" v-model="inputVal">
       </div>
-      <div class="code-box">
-        <input type="text" placeholder="验证码" class="input-style" v-model="codeVal">
+      <div class="input-box">
+        <input type="text" placeholder="验证码" v-model="codeVal">
       </div>
-      <div class="btn-box">
-        <input type="button" value="登录" class="input-style btn-style" @click="toLogin" :disabled="isDisable">
+      <div class="input-box btn-box">
+        <input type="button" value="登录" class="btn-style" @click="toLogin" :disabled="isDisable">
       </div>
     </dir>
   </div>
@@ -82,32 +82,42 @@ export default {
     }
   }
   .login {
-    line-height: px2rem(55);
-    margin: 0 px2rem(25);
-  }
-
-  .input-style {
-    height: px2rem(15);
-    line-height: px2rem(15);
     width: 100%;
-    font-size: px2rem(15);
-    color: #191a1b;
-    border: 0;
-    outline-width: 0;
+    position: relative;
   }
-
-  .btn-style {
-    line-height: px2rem(45);
-    font-size: px2rem(16);
-    margin: px2rem(70) px2rem(0) 0;
-    border-radius: px2rem(3);
-    text-align: center;
-    background-color: #ff5f16;
-    height: px2rem(44);
-    color: #fff;
-    border: none;
-    &[disabled] {
-      background: #eee;
+  dir {
+    padding-inline-start: 0;
+  }
+  .input-box {
+    line-height: px2rem(50);
+    margin: 0 px2rem(25);
+    position: relative;
+    border-bottom: px2rem(1) solid #eee;
+    input {
+      height: px2rem(15);
+      line-height: px2rem(15);
+      width: 100%;
+      padding: px2rem(20) 0;
+      font-size: px2rem(16);
+      color: #191a1b;
+      border: 0;
+      outline-width: 0;
     }
   }
+  .btn-box {
+    border-bottom: none;
+    margin-top: px2rem(70);
+    .btn-style {
+      display: inline-block;
+      height: px2rem(50);
+      border-radius: px2rem(3);
+      text-align: center;
+      background-color: #ff5f16;
+      color: #fff;
+      &[disabled] {
+        opacity: .5;
+      }
+    }
+  }
+
 </style>

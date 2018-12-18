@@ -67,6 +67,12 @@ const router = new VueRouter({
           component: () => import('./views/Cinema')
         },
         {
+          // 9.9拼团
+          path: 'group',
+          name: 'group',
+          component: () => import('./views/Group.vue')
+        },
+        {
           // 个人中心页
           path: 'center',
           name: 'center',
