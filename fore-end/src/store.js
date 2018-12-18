@@ -4,7 +4,7 @@ Vue.use(Vuex);
 
 var store = new Vuex.Store({
   state: {
-    filmCardDate: []
+    filmCardDate: localStorage.getItem("filmDate") ? JSON.parse(localStorage.getItem("filmDate")) : []
   },
 
   mutations: {
@@ -43,6 +43,8 @@ var store = new Vuex.Store({
           filmNum: 1
         })
       }
+      // 存入localStorage
+      localStorage.setItem("filmDate", JSON.stringify(state.filmCardDate));
     },
 
     /**
@@ -71,6 +73,8 @@ var store = new Vuex.Store({
           state.filmCardDate.splice(index, 1);
         }
       }
+      // 存入localStorage
+      localStorage.setItem("filmDate", JSON.stringify(state.filmCardDate));
     }
   }
 });

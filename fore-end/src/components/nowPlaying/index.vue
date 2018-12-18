@@ -27,7 +27,7 @@
                 <span class="distance">{{ item.nation }} | {{ item.runtime }}分钟</span>
               </div>
             </div>
-            <div class="fr buy" @click.stop="popupVisible = !popupVisible, filmDate = item">购票</div>
+            <div class="fr buy" @click.stop="popupVisible = !popupVisible, addTicket(item)">购票</div>
           </a>
         </li>
       </ul>
@@ -39,13 +39,15 @@
           <h3>已选影片</h3>
         </div>
         <ul>
-          <li>
-            <span class="filmname">海王</span>
-            <span class="price">￥<i>29</i></span>
+          <li v-for="(item, index) in filmCardDate"
+            :key="index"
+          >
+            <span class="filmname">{{ item.filmName }}</span>
+            <span class="price">￥<i>{{ item.filmPrice }}</i></span>
             <span class="change-film-num">
-              <i class="reduce-film" @click="reduceTicket(filmDate)">-</i>
-              <span class="film-num">1</span>
-              <i class="add-film" @click="addTicket(filmDate)">+</i></span>
+              <i class="reduce-film" @click="reduceTicket(item)">-</i>
+              <span class="film-num">{{ item.filmNum }}</span>
+              <i class="add-film" @click="addTicket(item)">+</i></span>
           </li>
         </ul>
         <mt-button type="primary" class="goto-card">结算</mt-button>
@@ -59,7 +61,7 @@
   import axios from "axios";
   // 引入mint-Ui 的 popup
   import { Popup, Button } from 'mint-ui';
-  import { mapMutations } from 'vuex';
+  import { mapMutations, mapState } from 'vuex';
 
   export default {
     name: 'nowPlaying',
@@ -78,9 +80,7 @@
         // 加载更多
         loadText: '加载更多',
         // 小购物车开关
-        popupVisible: false,
-        // 拿到当前点击购票的数据
-        filmDate: {}
+        popupVisible: false
       }
     },
 
@@ -152,14 +152,23 @@
           this.loadText = '已全部加载'
         }
       }
+
     },
 
     computed: {
+      /**
+       *
+       *  获取仓库状态
+       */
+      ...mapState([
+        'filmCardDate'
+      ])
 
     },
 
     created () {
       this.getFilmsDate();
+      console.log(this.filmCardDate)
     }
   }
 </script>
@@ -299,6 +308,8 @@
 }
 
 .film-num {
-  padding: 0 px2rem(10);
+  text-align: center;
+  width: px2rem(30);
+  display: inline-block;
 }
 </style>
