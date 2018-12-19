@@ -93,6 +93,12 @@ const router = new VueRouter({
       component: () => import('./views/Login.vue')
     },
     {
+      // 注册页
+      path: '/register',
+      name: 'register',
+      component: () => import('./views/Register.vue')
+    },
+    {
       path: '/user',
       component: () => import('./views/User.vue'),
       beforeEnter: (to, from, next) => {

@@ -11,11 +11,11 @@
         <input type="text" placeholder="验证码" v-model="codeVal">
       </div>
       <div class="input-box btn-box">
-        <input type="button" value="登录" class="btn-style" @click="toLogin" :disabled="isDisable">
+        <input type="button" value="注册" class="btn-style" @click="toRegister" :disabled="isDisable">
       </div>
       <div class="other input-box">
         <router-link tag="span" to="/">返回首页</router-link>
-        <router-link tag="span" :to="{ name: 'register' }" class="goRegister">没有账号？</router-link>
+        <router-link tag="span" :to="{ name: 'login' }" class="goRegister">返回登录</router-link>
       </div>
     </dir>
   </div>
@@ -37,8 +37,8 @@ export default {
      *
      *  登录验证
      */
-    toLogin () {
-      axios.post('/api/user/login', {
+    toRegister () {
+      axios.post('/api/user/register', {
         params: {
           phone: this.inputVal,
           code: this.codeVal
@@ -46,14 +46,8 @@ export default {
       }).then((res) => {
         console.log(res.data)
         if (res.data.code === 0) {
-          localStorage.setItem('phone', this.inputVal);
-          let redirect = this.$route.query.redirect;
-          console.log(redirect)
-          if (redirect) {
-            this.$router.replace(redirect);
-          } else {
-            this.$router.go(-1);
-          }
+          alert(res.data.msg)
+          this.$router.replace('/login')
         } else {
           alert(res.data.msg)
         }
