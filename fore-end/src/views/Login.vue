@@ -52,7 +52,7 @@ export default {
           if (redirect) {
             this.$router.replace(redirect);
           } else {
-            this.$router.go(-1);
+            this.$router.replace('center');
           }
         } else {
           alert(res.data.msg)
