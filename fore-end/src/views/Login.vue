@@ -34,19 +34,24 @@ export default {
      *  登录验证
      */
     toLogin () {
-      axios.get('/static/api/user.json', {
+      axios.post('/api/user/login', {
         params: {
           phone: this.inputVal,
           code: this.codeVal
         }
       }).then((res) => {
-        if (this.inputVal === res.data[0].phone && this.codeVal === res.data[0].code) {
-          console.log('登录成功');
-          localStorage.setItem('phone', '15899850664');
+        console.log(res.data)
+        if (res.data.code === 0) {
+          localStorage.setItem('phone', this.inputVal);
           let redirect = this.$route.query.redirect;
-          this.$router.replace(redirect);
+          console.log(redirect)
+          if (redirect) {
+            this.$router.replace(redirect);
+          } else {
+            this.$router.go(-1);
+          }
         } else {
-          alert('账号或密码错误')
+          alert(res.data.msg)
         }
       })
     }

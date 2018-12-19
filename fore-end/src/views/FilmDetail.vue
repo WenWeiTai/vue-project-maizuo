@@ -250,6 +250,8 @@ export default {
 .photo-info {
   width: px2rem(150);
   margin-right: px2rem(10);
+  display: flex;
+  align-items: center;
   img {
     width: px2rem(150);
   }

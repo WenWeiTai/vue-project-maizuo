@@ -89,6 +89,7 @@ const router = new VueRouter({
     {
       // 登录页
       path: '/login',
+      name: 'login',
       component: () => import('./views/Login.vue')
     },
     {

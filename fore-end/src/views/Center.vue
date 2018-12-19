@@ -3,7 +3,8 @@
     <header id="header">
       <div class="islogin-div"></div>
       <h2>
-        <a href="javascript:;">{{ phone }}</a>
+        <router-link tag="a" :to="{ name: 'login' }" href="javascript:;">{{ phone }}</router-link>
+        <span v-if="isquit" @click="clsLocalStorage"><i class="iconfont iconfont-icon4"></i>退出</span>
       </h2>
     </header>
     <main id="main">
@@ -27,7 +28,7 @@
             <i class="iconfont iconfont-arr_R"></i>
           </div>
         </router-link>
-        <div class="balace">
+        <router-link tag="div" :to="{ name: 'card' }" class="balace">
           <div class="list">
             <i style="color: red;" class="iconfont iconfont-yue"></i>
             <span>余额</span>
@@ -36,8 +37,8 @@
             <p>￥0</p>
             <i class="iconfont iconfont-arr_R"></i>
           </div>
-        </div>
-        <div class="set">
+        </router-link>
+        <router-link tag="div" :to="{ name: 'card' }" class="set">
           <div class="list">
             <i style="color: rgb(15, 235, 52);" class="iconfont iconfont-shezhi2"></i>
             <span>设置</span>
@@ -45,7 +46,7 @@
           <div class="list1">
             <i class="iconfont iconfont-arr_R"></i>
           </div>
-        </div>
+        </router-link>
       </div>
     </main>
   </div>
@@ -56,11 +57,25 @@ export default {
   name: 'Center',
   data () {
     return {
-      phone: ''
+      phone: '',
+      isquit: null
+    }
+  },
+  methods: {
+    clsLocalStorage () {
+      localStorage.setItem("phone", "");
+      this.phone = '立即登录';
+      this.isquit = false;
     }
   },
   created () {
-    this.phone = localStorage.getItem('phone') ? localStorage.getItem('phone') : '立即登录'
+    if (localStorage.getItem('phone')) {
+      this.phone = localStorage.getItem('phone');
+      this.isquit = true;
+    } else {
+      this.phone = '立即登录';
+      this.isquit = false;
+    }
   }
 };
 </script>
@@ -86,13 +101,26 @@ export default {
     margin-left: px2rem(20);
     background: url('~@/images/head-portrait.png');
     background-size: 100%;
+    flex-shrink: 0;
   }
   h2 {
     font-size: px2rem(16);
     align-self: center;
     margin-left: px2rem(20);
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
     a {
       color: white;
+      flex: 1;
+    }
+    span {
+      color: #fff;
+      flex: 1;
+      text-align: center;
+      i {
+        padding-right: px2rem(5);
+      }
     }
   }
 }
