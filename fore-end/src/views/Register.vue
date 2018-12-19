@@ -5,7 +5,7 @@
     </div>
     <dir class="login">
       <div class="input-box">
-        <input type="text" placeholder="手机号" v-model="inputVal">
+        <input type="text" placeholder="手机号" v-model="inputVal" @blur="checkPhone">
       </div>
       <div class="input-box">
         <input type="text" placeholder="验证码" v-model="codeVal">
@@ -52,6 +52,18 @@ export default {
           alert(res.data.msg)
         }
       })
+    },
+    /**
+     *
+     * 校验手机号正确性 /^1[3-8]\d{9}$/
+     *
+     */
+    checkPhone () {
+      var reg = /^1[3-8]\d{9}$/;
+      console.log(reg.test(this.inputVal))
+      if (!reg.test(this.inputVal)) {
+        alert('手机号格式不正确，请重新输入')
+      }
     }
   },
 
@@ -61,14 +73,14 @@ export default {
      *  监听文本框是否为空，控制按钮是否可点
      */
     isDisable () {
-      if (this.inputVal && this.codeVal) {
+      var reg = /^1[3-8]\d{9}$/;
+      if (this.inputVal && this.codeVal && reg.test(this.inputVal)) {
         return false;
       } else {
         return true;
       }
     }
   }
-
 }
 </script>
 
