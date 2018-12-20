@@ -9,10 +9,21 @@
     <div class="search-city">
       <div class="search-input">
         <i class="iconfont">&#xe64d;</i>
-        <input type="text" placeholder="输入城市名或拼音">
+        <input type="text" placeholder="输入城市名或拼音" v-model="inputVal">
+        <!-- <span class="cancel" @click="showList">取消</span> -->
       </div>
     </div>
-    <div class="city-list">
+    <ul class="seach-ul">
+      <li
+        v-show="!isShowList"
+        v-for="(item, index) in searchResult"
+        :key="index"
+        @click="repCityName(item.name)"
+      >
+        {{ item.name }}
+      </li>
+    </ul>
+    <div class="city-list" v-show="isShowList">
       <ul class="list">
         <div class="recommend-city">
           <div class="gprs-city">
@@ -69,10 +80,13 @@ export default {
   name: "CityList",
   data () {
     return {
+      cityDate: [],
       cityList: [],
-      hotCity: []
+      hotCity: [],
+      inputVal: ''
     };
   },
+
   methods: {
     ...mapActions([
       'getCityName'
@@ -82,10 +96,15 @@ export default {
       'replaceCityName'
     ]),
 
+    /**
+     *
+     *  更改当前城市
+     */
     repCityName (newName) {
       this.$store.commit('replaceCityName', newName)
       this.$router.go(-1)
     },
+
     /**
      *
      *  数组按照字母拼音排序
@@ -124,19 +143,42 @@ export default {
      *  城市列表返回上一层
      */
     goBack () {
-      return this.$router.go(-1);
+      this.$router.go(-1);
     }
   },
 
   computed: {
     ...mapState([
       'cityName'
-    ])
+    ]),
+
+    /**
+     *
+     *  搜索框输入, 城市列表隐藏
+     */
+    isShowList () {
+      if (this.inputVal) return false;
+      return true;
+    },
+    /**
+     *
+     *  搜索结果筛选
+     */
+    searchResult () {
+      var arr = [];
+      this.cityDate.forEach(item => {
+        if (item.pinyin.indexOf(this.inputVal) !== -1 || item.name.indexOf(this.inputVal) !== -1) {
+          arr.push(item)
+        }
+      })
+      return arr;
+    }
   },
 
   created () {
     axios.get("/static/api/cityList.json").then(res => {
       console.log(res.data);
+      this.cityDate = res.data;
       var listItem = {}; // 记录某个拼音首字母是否存在
       var index = 0; // 记录某个拼音字母下标
       var data = res.data; // 请求的数据
@@ -157,7 +199,7 @@ export default {
       this.cityList = this.cityList.sort(this.compare)
       this.getHotCity()
     });
-
+    // 定位城市
     this.getCityName()
   }
 };
@@ -177,6 +219,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 2;
   width: 100%;
   height: px2rem(44);
   border-bottom: px2rem(1) solid #ededed;
@@ -200,6 +243,7 @@ body {
 .search-city {
   position: fixed;
   top: px2rem(44);
+  z-index: 2;
   padding: px2rem(9.5) px2rem(15);
   background: #f4f4f4;
   width: 100%;
@@ -227,6 +271,21 @@ body {
       outline: 0;
       width: 80%;
     }
+    span {
+      position: absolute;
+      right: 0;
+      line-height: px2rem(35);
+    }
+  }
+}
+.seach-ul {
+  width: 100%;
+  position: absolute;
+  top: px2rem(94);
+  padding: 0 px2rem(17);
+  li {
+    line-height: px2rem(40);
+    border-bottom: px2rem(1) solid rgb(248, 246, 246);
   }
 }
 
@@ -311,17 +370,8 @@ body {
 .section-title {
   color: #797d82;
   padding: 0 0 0 px2rem(15);
-  // height: px2rem(30);
   line-height: px2rem(30);
   font-size: px2rem(12);
-    background-color: #f4f4f4;
-  // span {
-  //   width: 100%;
-  //   display: block;
-  //   background-color: #f4f4f4;
-  // }
-  // p {
-  //   background: #fff;
-  // }
+  background-color: #f4f4f4;
 }
 </style>
