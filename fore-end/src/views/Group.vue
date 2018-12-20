@@ -110,7 +110,7 @@ export default {
         border: px2rem(1) solid #fff;
         &:nth-child(1){
           margin-right: px2rem(-15);
-          z-index: 10;
+          // z-index: 10;
         }
       }
     }

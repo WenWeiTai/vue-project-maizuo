@@ -126,6 +126,12 @@ const router = new VueRouter({
       ]
     },
     {
+      // 城市列表
+      path: '/city',
+      name: 'city',
+      component: () => import('./views/CItyList.vue')
+    },
+    {
       // 默认
       path: '*',
       redirect: '/films/nowPlaying'

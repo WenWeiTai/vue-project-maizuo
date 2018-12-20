@@ -23,7 +23,7 @@
 
     <!-- 城市定位 -->
     <div class="city-fixed">
-      <span>{{ cityName }}</span>
+      <router-link tag="span" :to="{ name: 'city'}">{{ cityName }}</router-link>
       <i class="iconfont iconfont-arr_D"></i>
     </div>
     <!-- /城市定位 -->
