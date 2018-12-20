@@ -176,6 +176,9 @@ export default {
   },
 
   created () {
+    /**
+     *  页面未加载前获取城市列表数据
+     */
     axios.get("/static/api/cityList.json").then(res => {
       console.log(res.data);
       this.cityDate = res.data;

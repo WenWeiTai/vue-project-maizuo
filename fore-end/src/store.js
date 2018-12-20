@@ -5,7 +5,7 @@ Vue.use(Vuex);
 var store = new Vuex.Store({
   state: {
     filmCardDate: localStorage.getItem("filmDate") ? JSON.parse(localStorage.getItem("filmDate")) : [],
-    cityName: '定位失败'
+    cityName: '深圳'
   },
 
   mutations: {
@@ -16,7 +16,10 @@ var store = new Vuex.Store({
     setCityName (state, name) {
       state.cityName = name;
     },
-
+    /**
+     *
+     *  更换状态
+     */
     replaceCityName (state, payload) {
       state.cityName = payload
     },
@@ -103,7 +106,7 @@ var store = new Vuex.Store({
         let name = result.name.substr(0, result.name.length - 1);
         context.commit('setCityName', name);
       })
-    },
+    }
   }
 });
 
