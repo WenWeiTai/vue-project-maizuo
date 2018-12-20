@@ -23,5 +23,13 @@ new Vue({
     App
   },
   // 直接传入组件内容，覆盖index.html的<div id="main"></div>
-  template: '<App/>'
+  template: '<App/>',
+
+  mounted () {
+    /**
+     *
+     *  定位城市
+     */
+    store.dispatch('getCityName')
+  }
 })

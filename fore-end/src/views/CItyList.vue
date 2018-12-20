@@ -1,7 +1,7 @@
 <template>
   <div class="city-lits-box">
     <div class="header">
-      <div class="close">
+      <div class="close" @click="goBack">
         <i class="iconfont">&#xe617;</i>
       </div>
       <div class="title">当前城市 -</div>
@@ -18,7 +18,7 @@
           <div class="gprs-city">
             <p class="city-title">GPS定位你所在城市</p>
             <div class="city-item">
-              <p class="city-item-text">深圳</p>
+              <p class="city-item-text">{{ cityName }}</p>
             </div>
           </div>
           <div class="hot-city">
@@ -27,6 +27,7 @@
               <p class="city-item-text"
                 v-for="(item, index) in hotCity"
                 :key="index"
+                @click="repCityName(item.name)"
               >{{ item.name }}</p>
             </div>
           </div>
@@ -40,7 +41,9 @@
           <ul>
             <li
               v-for="(itemList,listIndex) in item.list"
-              :key="listIndex">
+              :key="listIndex"
+              @click="repCityName(itemList.name)"
+              >
               <p>{{ itemList.name }}</p>
             </li>
           </ul>
@@ -61,6 +64,7 @@
 
 <script>
 import axios from "axios";
+import { mapState, mapActions, mapMutations } from "vuex";
 export default {
   name: "CityList",
   data () {
@@ -70,6 +74,18 @@ export default {
     };
   },
   methods: {
+    ...mapActions([
+      'getCityName'
+    ]),
+
+    ...mapMutations([
+      'replaceCityName'
+    ]),
+
+    repCityName (newName) {
+      this.$store.commit('replaceCityName', newName)
+      this.$router.go(-1)
+    },
     /**
      *
      *  数组按照字母拼音排序
@@ -101,8 +117,23 @@ export default {
           }
         })
       })
+    },
+
+    /**
+     *
+     *  城市列表返回上一层
+     */
+    goBack () {
+      return this.$router.go(-1);
     }
   },
+
+  computed: {
+    ...mapState([
+      'cityName'
+    ])
+  },
+
   created () {
     axios.get("/static/api/cityList.json").then(res => {
       console.log(res.data);
@@ -126,6 +157,8 @@ export default {
       this.cityList = this.cityList.sort(this.compare)
       this.getHotCity()
     });
+
+    this.getCityName()
   }
 };
 </script>

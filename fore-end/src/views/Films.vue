@@ -53,28 +53,22 @@ import Swiper from "swiper";
 // 引入store
 import store from "../store";
 
+import { mapState } from "vuex"
 console.log(store);
 export default {
   name: "Films",
 
-  data () {
-    return {
-      // 定位城市
-      cityName: ''
-    }
-  },
   methods: {
-    // 定位当前城市名称
-    /* eslint-disable */
-    getCityName () {
-      var myCity = new BMap.LocalCity();
-      myCity.get((result) => {
-        this.cityName = result.name;
-      })
-    },
+    /**
+     *  仓库方法
+     *
+     */
+    // ...mapActions([
+    //   'getCityName'
+    // ]),
 
     // 切换 正在热映 | 即将上映 的路由——编程式导航
-    tabBarClick(type) {
+    tabBarClick (type) {
       if (type === 'now') {
         this.$router.push({
           name: 'nowPlaying'
@@ -87,9 +81,19 @@ export default {
     }
   },
 
-  created () {
-    this.getCityName();
+  computed: {
+    /**
+     *
+     * 仓库状态获取
+     */
+    ...mapState([
+      'cityName'
+    ])
   },
+
+  // created () {
+  //   this.getCityName();
+  // },
 
   mounted () {
     new Swiper(".swiper-container", {

@@ -4,10 +4,22 @@ Vue.use(Vuex);
 
 var store = new Vuex.Store({
   state: {
-    filmCardDate: localStorage.getItem("filmDate") ? JSON.parse(localStorage.getItem("filmDate")) : []
+    filmCardDate: localStorage.getItem("filmDate") ? JSON.parse(localStorage.getItem("filmDate")) : [],
+    cityName: '定位失败'
   },
 
   mutations: {
+    /**
+     *
+     *  状态改变成百度获取的定位城市
+     */
+    setCityName (state, name) {
+      state.cityName = name;
+    },
+
+    replaceCityName (state, payload) {
+      state.cityName = payload
+    },
     /**
      *
      *  添加电影票
@@ -76,6 +88,22 @@ var store = new Vuex.Store({
       // 存入localStorage
       localStorage.setItem("filmDate", JSON.stringify(state.filmCardDate));
     }
+  },
+
+  actions: {
+    /**
+     *
+     *  定位当前城市，百度接口
+     *
+     */
+    /* eslint-disable */
+    getCityName (context) {
+      var myCity = new BMap.LocalCity();
+      myCity.get((result) => {
+        let name = result.name.substr(0, result.name.length - 1);
+        context.commit('setCityName', name);
+      })
+    },
   }
 });
 
