@@ -121,6 +121,27 @@ const router = new VueRouter({
       component: () => import('./views/CItyList.vue')
     },
     {
+      // 购物车
+      path: '/shoppingTrolley',
+      name: 'shoppingTrolley',
+      component: () => import('./views/ShoppingTrolley.vue'),
+      beforeEnter: (to, from, next) => {
+        // 路由独享守卫——拦截,判断是否有登录
+        if (localStorage.getItem('phone')) {
+          next()
+        } else {
+          console.log(to.fullPath)
+          next({
+            path: '/login',
+            // 设置重定向的地址，成功登录后跳转
+            query: {
+              redirect: to.fullPath
+            }
+          })
+        }
+      }
+    },
+    {
       // 默认
       path: '*',
       redirect: '/films/nowPlaying'

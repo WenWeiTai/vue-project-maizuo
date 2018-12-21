@@ -9,10 +9,10 @@
     </header>
     <main id="main">
       <div class="order-div">
-        <h3>
+        <router-link tag="h3" :to="{ name: 'shoppingTrolley' }">
           <i class="iconfont iconfont-piaofang" style="color: orange;"></i>
           <span>电影订单</span>
-        </h3>
+        </router-link>
         <h3>
           <i class="iconfont iconfont-pintuanzhuanqu" style="color: greenyellow;;"></i>
           <span>拼团订单</span>

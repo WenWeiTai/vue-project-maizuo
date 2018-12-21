@@ -50,7 +50,7 @@
               <i class="add-film" @click="addTicket(item)">+</i></span>
           </li>
         </ul>
-        <mt-button type="primary" class="goto-card">结算</mt-button>
+        <router-link :to="{ name: 'shoppingTrolley'}"><mt-button type="primary" class="goto-card">结算</mt-button></router-link>
       </mt-popup>
     </div>
     <!-- /list -->
@@ -92,7 +92,7 @@
     methods: {
       /**
        *
-       *  添加
+       *  添加 | 减少电影票
        */
       ...mapMutations([
         'addTicket',
