@@ -21,7 +21,13 @@
     </ul>
     <mt-popup position="top" v-model="isCheckBoxShow">
       <ul class="city-area">
-        <li class="city-area-item" :class="{'active': isActive}">全城</li>
+        <li
+          class="city-area-item"
+          :class="{'active': isActive}"
+          v-for="(item, index) in districtNameList"
+          :key="index"
+        >
+          {{ item }}</li>
       </ul>
     </mt-popup>
     <ul class="cinema-ul">
@@ -43,7 +49,7 @@
 </template>
 
 <script>
-import { Header, Button, Popup } from "mint-ui";
+import { Header, Button, Popup, Indicator } from "mint-ui";
 import { mapState } from "vuex";
 import axios from "axios";
 export default {
@@ -52,7 +58,8 @@ export default {
     return {
       isCheckBoxShow: false,
       cinemaDate: [],
-      isActive: true
+      districtNameList: [],
+      isActive: false
     };
   },
 
@@ -67,11 +74,16 @@ export default {
   },
 
   created () {
+    Indicator.open({
+      text: '加载中...',
+      spinnerType: 'triple-bounce'
+    });
     axios.get('/api/cinema/list', {
       params: {
         cityName: this.$store.state.cityName
       }
     }).then(res => {
+      Indicator.close();
       if (res.data.code === 0) {
         this.cinemaDate = res.data.data;
         // 拿到全城数据后，根据不同区域分配数据
@@ -81,7 +93,8 @@ export default {
           obj[districtName] = obj[districtName] || [];
           obj[districtName].push(item);
         });
-        console.log(Object.keys(obj))
+        console.log(Object.keys(obj));
+        this.districtNameList = Object.keys(obj);
       } else {
         alert(res.msg)
       }

@@ -76,6 +76,7 @@
 <script>
 import axios from "axios";
 import { mapState, mapActions, mapMutations } from "vuex";
+import { Indicator } from 'mint-ui';
 export default {
   name: "CityList",
   data () {
@@ -176,6 +177,10 @@ export default {
   },
 
   created () {
+    Indicator.open({
+      text: '加载中...',
+      spinnerType: 'triple-bounce'
+    });
     /**
      *  页面未加载前获取城市列表数据
      */
@@ -187,6 +192,7 @@ export default {
       var data = res.data; // 请求的数据
 
       data.forEach(item => {
+        Indicator.close();
         let initial = item.pinyin.slice(0, 1).toUpperCase();
         // console.log(initial)
         if (listItem[initial]) {

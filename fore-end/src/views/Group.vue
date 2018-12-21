@@ -30,6 +30,7 @@
 
 <script>
 import axios from 'axios';
+import { Indicator } from 'mint-ui';
 export default {
   name: 'group',
   data () {
@@ -38,7 +39,12 @@ export default {
     }
   },
   created () {
+    Indicator.open({
+      text: '加载中...',
+      spinnerType: 'triple-bounce'
+    });
     axios.get('/static/api/group.json').then((res) => {
+      Indicator.close();
       this.groupDate = res.data;
     })
   }

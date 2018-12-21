@@ -60,7 +60,7 @@
   // 引入axios
   import axios from "axios";
   // 引入mint-Ui 的 popup
-  import { Popup, Button } from 'mint-ui';
+  import { Popup, Button, Indicator } from 'mint-ui';
   import { mapMutations, mapState } from 'vuex';
 
   export default {
@@ -101,6 +101,10 @@
 
       // 请求后台数据
       getFilmsDate () {
+        Indicator.open({
+          text: '加载中...',
+          spinnerType: 'triple-bounce'
+        });
         axios.get('/api/film/list', {
           params: {
             pageNum: this.pageNum,
@@ -108,6 +112,7 @@
           }
         })
           .then((res) => {
+            Indicator.close();
             var result = res.data;
             if (result.code === 0) {
               console.log(result)
