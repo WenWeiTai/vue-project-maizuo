@@ -8,7 +8,7 @@
         </mt-button>
       </router-link>
       <mt-button slot="right">
-        <i class="iconfont iconfont-magnifier"></i>
+        <router-link tag="i" :to="{ name: 'cinemasearch' }" class="iconfont iconfont-magnifier"></router-link>
       </mt-button>
     </mt-header>
     <ul class="filter-ul">
@@ -67,6 +67,12 @@ export default {
     "mt-header": Header,
     "mt-button": Button,
     "mt-popup": Popup
+  },
+
+  methods: {
+    showSearch () {
+      alert(1)
+    }
   },
 
   computed: {

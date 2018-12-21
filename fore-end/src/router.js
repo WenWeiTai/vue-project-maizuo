@@ -4,26 +4,9 @@
 // vue 引入多次，用的是缓存
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// 引入nprogress
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
-// 引入路由组件
-// 电影页
-// import Films from './views/Films';
-// 引入 正在热映 | 即将上映 组件
-// import nowPlaying from './components/nowPlaying';
-// import comingSoon from './components/comingSoon';
-
-// import Cinema from './views/Cinema';
-// import Center from './views/Center';
-// 引入详情页
-// import FilmDetail from './views/FilmDetail';
-// 引入首页
-// import Home from './views/home';
-
-// npm引入模块的方式，需要用Vue.use()
-// 插件安装
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -97,6 +80,12 @@ const router = new VueRouter({
       path: '/register',
       name: 'register',
       component: () => import('./views/Register.vue')
+    },
+    {
+      // 影院搜索
+      path: '/cinemas/search',
+      name: 'cinemasearch',
+      component: () => import('./views/CinemaSeach.vue')
     },
     {
       path: '/user',
