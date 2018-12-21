@@ -185,7 +185,6 @@ export default {
      *  页面未加载前获取城市列表数据
      */
     axios.get("/static/api/cityList.json").then(res => {
-      console.log(res.data);
       this.cityDate = res.data;
       var listItem = {}; // 记录某个拼音首字母是否存在
       var index = 0; // 记录某个拼音字母下标
@@ -194,7 +193,6 @@ export default {
       data.forEach(item => {
         Indicator.close();
         let initial = item.pinyin.slice(0, 1).toUpperCase();
-        // console.log(initial)
         if (listItem[initial]) {
           this.cityList[listItem[initial] - 1].list.push(item);
         } else {

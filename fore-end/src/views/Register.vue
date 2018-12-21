@@ -23,6 +23,7 @@
 
 <script>
 import axios from 'axios';
+import { MessageBox } from 'mint-ui';
 export default {
   name: "login",
   data () {
@@ -44,9 +45,8 @@ export default {
           code: this.codeVal
         }
       }).then((res) => {
-        console.log(res.data)
         if (res.data.code === 0) {
-          alert(res.data.msg)
+          MessageBox('恭喜您，返回登录', res.data.msg);
           this.$router.replace('/login')
         } else {
           alert(res.data.msg)
@@ -60,7 +60,6 @@ export default {
      */
     checkPhone () {
       var reg = /^1[3-8]\d{9}$/;
-      console.log(reg.test(this.inputVal))
       if (!reg.test(this.inputVal)) {
         alert('手机号格式不正确，请重新输入')
       }

@@ -23,6 +23,7 @@
 
 <script>
 import axios from 'axios';
+import { Toast } from 'mint-ui';
 export default {
   name: "login",
   data () {
@@ -44,8 +45,8 @@ export default {
           code: this.codeVal
         }
       }).then((res) => {
-        console.log(res.data)
         if (res.data.code === 0) {
+          Toast('登录成功');
           localStorage.setItem('phone', this.inputVal);
           let redirect = this.$route.query.redirect;
           console.log(redirect)

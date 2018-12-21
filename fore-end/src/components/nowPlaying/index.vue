@@ -115,7 +115,6 @@
             Indicator.close();
             var result = res.data;
             if (result.code === 0) {
-              console.log(result)
               this.tatal = res.data.data.tatal
               this.films.push(...result.data.film);
             } else {

@@ -82,7 +82,6 @@ export default {
       var result = res.data
       if (result.code === 1) {
         this.detailsDate = result.data[0]
-        console.log(this.detailsDate)
       } else {
         alert(result.msg)
       }
