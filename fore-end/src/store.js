@@ -5,7 +5,7 @@ Vue.use(Vuex);
 var store = new Vuex.Store({
   state: {
     filmCardDate: localStorage.getItem("filmDate") ? JSON.parse(localStorage.getItem("filmDate")) : [],
-    cityName: '深圳'
+    cityName: ''
   },
 
   mutations: {

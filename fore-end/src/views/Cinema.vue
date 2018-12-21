@@ -70,8 +70,32 @@ export default {
   },
 
   methods: {
-    showSearch () {
-      alert(1)
+    getCinemaDate () {
+      Indicator.open({
+      text: '加载中...',
+      spinnerType: 'triple-bounce'
+      });
+      axios.get('/api/cinema/list', {
+        params: {
+          cityName: this.$store.state.cityName
+        }
+      }).then(res => {
+        Indicator.close();
+        if (res.data.code === 0) {
+          this.cinemaDate = res.data.data;
+          // 拿到全城数据后，根据不同区域分配数据
+          var obj = {};
+          this.cinemaDate.forEach(item => {
+            var districtName = item.districtName;
+            obj[districtName] = obj[districtName] || [];
+            obj[districtName].push(item);
+          });
+          console.log(Object.keys(obj));
+          this.districtNameList = Object.keys(obj);
+        } else {
+          alert(res.msg)
+        }
+      })
     }
   },
 
@@ -79,32 +103,43 @@ export default {
     ...mapState(["cityName"])
   },
 
+  watch: {
+    cityName: {
+      handler: function (newVal, oldVal) {
+        if (newVal) {
+          this.getCinemaDate()
+        }
+      },
+      immediate: true
+    }
+  },
+
   created () {
-    Indicator.open({
-      text: '加载中...',
-      spinnerType: 'triple-bounce'
-    });
-    axios.get('/api/cinema/list', {
-      params: {
-        cityName: this.$store.state.cityName
-      }
-    }).then(res => {
-      Indicator.close();
-      if (res.data.code === 0) {
-        this.cinemaDate = res.data.data;
-        // 拿到全城数据后，根据不同区域分配数据
-        var obj = {};
-        this.cinemaDate.forEach(item => {
-          var districtName = item.districtName;
-          obj[districtName] = obj[districtName] || [];
-          obj[districtName].push(item);
-        });
-        console.log(Object.keys(obj));
-        this.districtNameList = Object.keys(obj);
-      } else {
-        alert(res.msg)
-      }
-    })
+    // Indicator.open({
+    //   text: '加载中...',
+    //   spinnerType: 'triple-bounce'
+    // });
+    // axios.get('/api/cinema/list', {
+    //   params: {
+    //     cityName: this.$store.state.cityName
+    //   }
+    // }).then(res => {
+    //   Indicator.close();
+    //   if (res.data.code === 0) {
+    //     this.cinemaDate = res.data.data;
+    //     // 拿到全城数据后，根据不同区域分配数据
+    //     var obj = {};
+    //     this.cinemaDate.forEach(item => {
+    //       var districtName = item.districtName;
+    //       obj[districtName] = obj[districtName] || [];
+    //       obj[districtName].push(item);
+    //     });
+    //     console.log(Object.keys(obj));
+    //     this.districtNameList = Object.keys(obj);
+    //   } else {
+    //     alert(res.msg)
+    //   }
+    // })
   }
 };
 </script>
@@ -179,9 +214,9 @@ export default {
   top: 90px;
   width: 100%;
 }
-.v-modal {
-  top: 90px;
-}
+// .v-modal {
+//   top: 90px;
+// }
 
 .cinema-ul {
   overflow-y: auto;

@@ -26,6 +26,7 @@ new Vue({
   template: '<App/>',
 
   mounted () {
+    console.log('main.js')
     /**
      *
      *  定位城市
